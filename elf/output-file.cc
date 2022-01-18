@@ -25,18 +25,18 @@ public:
     if (fd == -1)
       Fatal(ctx) << "cannot open " << output_tmpfile <<  ": " << errno_string();
 
-    if (rename(path.c_str(), output_tmpfile) == 0) {
-      ::close(fd);
-      fd = ::open(output_tmpfile, O_RDWR | O_CREAT, perm);
-      if (fd == -1) {
-        if (errno != ETXTBSY)
-          Fatal(ctx) << "cannot open " << path << ": " << errno_string();
-        unlink(output_tmpfile);
-        fd = ::open(output_tmpfile, O_RDWR | O_CREAT, perm);
-        if (fd == -1)
-          Fatal(ctx) << "cannot open " << path << ": " << errno_string();
-      }
-    }
+    // if (rename(path.c_str(), output_tmpfile) == 0) {
+    //   ::close(fd);
+    //   fd = ::open(output_tmpfile, O_RDWR | O_CREAT, perm);
+    //   if (fd == -1) {
+    //     if (errno != ETXTBSY)
+    //       Fatal(ctx) << "cannot open " << path << ": " << errno_string();
+    //     unlink(output_tmpfile);
+    //     fd = ::open(output_tmpfile, O_RDWR | O_CREAT, perm);
+    //     if (fd == -1)
+    //       Fatal(ctx) << "cannot open " << path << ": " << errno_string();
+    //   }
+    // }
 
     if (ftruncate(fd, filesize))
       Fatal(ctx) << "ftruncate failed";
