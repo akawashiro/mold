@@ -489,12 +489,13 @@ static int elf_main(int argc, char **argv) {
   }
 
   // Do the same for GCC LTO.
-  if (Symbol<E> *sym = get_symbol(ctx, "__gnu_lto_slim"); sym->file) {
-    Warn(ctx) << *sym->file
-              << "GCC LTO is detected, so falling back to ld.bfd";
-    execvp("ld.bfd", argv);
-    Fatal(ctx) << "execvp failed: ld.bfd: " << errno_string();
-  }
+  // TODO(akawashiro): This fallback is too slow for us.
+  // if (Symbol<E> *sym = get_symbol(ctx, "__gnu_lto_slim"); sym->file) {
+  //   Warn(ctx) << *sym->file
+  //             << "GCC LTO is detected, so falling back to ld.bfd";
+  //   execvp("ld.bfd", argv);
+  //   Fatal(ctx) << "execvp failed: ld.bfd: " << errno_string();
+  // }
 
   // Remove redundant comdat sections (e.g. duplicate inline functions).
   eliminate_comdats(ctx);
